@@ -1,0 +1,24 @@
+[project]
+name = "student-manager"
+version = "0.1.0"
+description = "Application de gestion d'étudiants, de matières et de notes."
+authors = [
+    { name = "Nathan Chhay-Trinh" },
+    { name = "Astrid Baërt" },
+    { name = "Nathaniel Gonzales Librea" }
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+
+dependencies = [
+    "pytest>=9.2.0,<10.0.0"
+]
+
+[tool.poetry]
+packages = [
+    { include = "student_manager_az" }
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
