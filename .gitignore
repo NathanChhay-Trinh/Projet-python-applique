@@ -6,3 +6,9 @@ Include
 Scripts
 Lib
 .idea
+
+# Fichiers générés localement
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db

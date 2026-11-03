@@ -1,6 +1,6 @@
 import pytest
 import sqlite3
-from student_manager_az.database.database import get_connection
+from student_manager_az.database import database
 from student_manager_az.services.grades import (
     add_grade,
     get_student_average,
@@ -14,27 +14,13 @@ def setup_database(tmp_path, monkeypatch):
 
     database_file = tmp_path / "test_grades.db"
 
-    def get_test_connection():
-        import sqlite3
-        return sqlite3.connect(database_file)
-
-    monkeypatch.setattr(
-        "student_manager_az.services.grades.get_connection",
-        get_test_connection,
-    )
-
-    with get_test_connection() as connection:
-        connection.execute("""
-            CREATE TABLE IF NOT EXISTS grades (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                student_id INTEGER NOT NULL,
-                subject_id INTEGER NOT NULL,
-                grade REAL NOT NULL,
-                FOREIGN KEY (student_id) REFERENCES students(id),
-                FOREIGN KEY (subject_id) REFERENCES subjects(id)
-            )
-        """)
-
+    monkeypatch.setattr(database, "DATABASE_NAME", str(database_file))
+    database.init_database()
+    with database.get_connection() as connection:
+        connection.execute(
+            "INSERT INTO students (first_name, last_name) VALUES (?, ?)",
+            ("Alice", "Martin"),
+        )
 
     return database_file
 
@@ -48,7 +34,7 @@ def test_add_grade(setup_database):
 def  test_get_grades_by_student(setup_database) :
     add_grade(1, 1, 20)
     grade_student = get_grades_by_student(1)
-    assert grade_student == 20
+    assert grade_student == [(1, "Python", 20.0)]
 
 def test_get_student_average(setup_database) :
     add_grade(1, 1, 20)

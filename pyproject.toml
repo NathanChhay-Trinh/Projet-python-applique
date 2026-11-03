@@ -1,5 +1,5 @@
 [project]
-name = "student-manager"
+name = "student-manager-az-chhay-baert-gonzales"
 version = "0.1.0"
 description = "Application de gestion d'étudiants, de matières et de notes."
 authors = [
@@ -10,13 +10,27 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 
-dependencies = [
-    "pytest>=9.2.0,<10.0.0"
-]
+dependencies = []
+
+[project.scripts]
+student-manager = "student_manager_az.main:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=9.2.0,<10.0.0"
 
 [tool.poetry]
 packages = [
     { include = "student_manager_az" }
+]
+
+exclude = [
+    "student_manager_az/**/*.db",
+    "student_manager_az/**/__pycache__/**",
+    "student_manager_az/**/*.pyc",
+    "student_manager_az/tests/**"
+]
+include = [
+    { path = "student_manager_az/tests/*.py", format = "sdist" }
 ]
 
 [build-system]
