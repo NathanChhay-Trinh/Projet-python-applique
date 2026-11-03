@@ -24,6 +24,7 @@ def setup_database(tmp_path, monkeypatch):
         get_test_connection,
     )
 
+
     with get_test_connection() as connection:
         connection.execute("""
             CREATE TABLE students (
