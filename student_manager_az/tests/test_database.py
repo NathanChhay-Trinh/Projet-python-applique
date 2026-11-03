@@ -2,6 +2,7 @@ import sqlite3
 
 import pytest
 
+
 from student_manager_az.database import database
 
 

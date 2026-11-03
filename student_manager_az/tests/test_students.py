@@ -48,16 +48,40 @@ def test_add_student(setup_database):
 
 
 def test_get_students(setup_database):
-    # À compléter :  vérifier la récupération de la liste des étudiants.
+    add_student(
+        "Alice", "Martin", "alice@example.com", "BTS SIO"
+    )
 
+    student_list = get_students()
+
+    assert len(student_list) == 1
 
 def test_delete_student(setup_database):
     # À compléter : vérifier la suppression d’un étudiant.
-
+    add_student(
+        "Alice", "Martin", "alice@example.com", "BTS SIO"
+    )
+    delete_student(1)
+    student_list = get_students()
+    assert len(student_list) == 0
 
 def test_search_students(setup_database):
-    # À compléter : vérifier la recherche d’étudiants à partir d’un nom ou d'un prénom.
+    add_student("Pablo", "Escobar", "pablo@exemple.com", "BTS SIO")
+    add_student("Escobar", "Pablo", "pablo2@exemple.com", "BTS SIO")
+    add_student("Escobar", "PasPablo", "pablo3@exemple.com", "BTS SIO")
 
+    student_list = search_students("Pablo")
+
+    assert len(student_list) == 2
+
+    first_names = [student[1] for student in student_list]
+    last_names = [student[2] for student in student_list]
+
+    assert "Pablo" in first_names
+    assert "Pablo" in last_names
 
 def test_search_students_no_result(setup_database):
     # À compléter : vérifier le comportement de la recherche lorsqu’aucun étudiant ne correspond au critère indiqué.
+    student_list = search_students("Personne")
+    assert len(student_list) == 0
+

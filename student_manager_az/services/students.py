@@ -1,4 +1,4 @@
-from database import get_connection
+from student_manager_az.database import get_connection
 
 
 def get_students():
@@ -23,7 +23,7 @@ def add_student(first_name, last_name, email, class_name):
     Ajoute un nouvel étudiant dans la base de données.
     """
     with get_connection() as connection:
-        connection.execute(
+        cursor = connection.execute(
             """
             INSERT INTO students (
                 first_name,
@@ -35,6 +35,8 @@ def add_student(first_name, last_name, email, class_name):
             """,
             (first_name, last_name, email, class_name)
         )
+    return cursor.lastrowid
+
 
 
 
@@ -47,7 +49,7 @@ def delete_student(student_id):
         connection.execute(
             """
             DELETE FROM students WHERE id = ?"""
-            ,(student_id)
+            ,(student_id,)
         )
 
 
